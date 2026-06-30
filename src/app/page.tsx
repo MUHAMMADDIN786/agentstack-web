@@ -607,6 +607,120 @@ export default function Home() {
         )}
       </div>
 
+      {/* COMPARISON TABLES */}
+      <section id="comparison" className="w-full max-w-5xl mx-auto px-6 py-12 mb-12 border-t border-slate-900">
+        <h2 className="text-3xl font-bold text-center text-white mb-4">Deep Technical Comparison</h2>
+        <p className="text-center text-slate-400 max-w-2xl mx-auto mb-12 text-sm">
+          Beyond monthly pricing, choose your software stack based on latency benchmarks, data privacy requirements, and customization support.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Table 1: Voice AI */}
+          <div className="glass-panel p-6 rounded-2xl overflow-hidden">
+            <h3 className="text-lg font-bold text-indigo-400 mb-6 flex items-center gap-2">🎙️ Voice AI Platforms</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-slate-800 text-slate-500">
+                    <th className="pb-3 font-semibold">Capability</th>
+                    <th className="pb-3 font-semibold text-right">Vapi.ai</th>
+                    <th className="pb-3 font-semibold text-right">Retell AI</th>
+                    <th className="pb-3 font-semibold text-right">Bland AI</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Avg. Latency</td>
+                    <td className="py-3 text-right text-white">600ms - 800ms</td>
+                    <td className="py-3 text-right text-white font-bold text-indigo-400">500ms - 700ms</td>
+                    <td className="py-3 text-right text-slate-400">1.0s - 1.5s</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">HIPAA Compliance</td>
+                    <td className="py-3 text-right text-[#10b981]">Yes (BAA Req.)</td>
+                    <td className="py-3 text-right text-[#10b981]">Yes (BAA Req.)</td>
+                    <td className="py-3 text-right text-[#10b981]">Yes (Enterprise)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Custom LLM Keys</td>
+                    <td className="py-3 text-right text-[#10b981]">Full Support</td>
+                    <td className="py-3 text-right text-[#10b981]">Full Support</td>
+                    <td className="py-3 text-right text-slate-400">Limited API</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Voice Synthesis</td>
+                    <td className="py-3 text-right text-slate-300">12+ Providers</td>
+                    <td className="py-3 text-right text-slate-300">8+ Providers</td>
+                    <td className="py-3 text-right text-slate-400">Built-in + ElevenLabs</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Visual Canvas Editor</td>
+                    <td className="py-3 text-right text-white">Yes</td>
+                    <td className="py-3 text-right text-white font-bold text-indigo-400">Advanced Node-Editor</td>
+                    <td className="py-3 text-right text-white">Yes</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Telephony BYON</td>
+                    <td className="py-3 text-right text-slate-300">Twilio / Vonage</td>
+                    <td className="py-3 text-right text-slate-300">Twilio / Vonage</td>
+                    <td className="py-3 text-right text-slate-400">Bland Native only</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Table 2: Workflow Automation */}
+          <div className="glass-panel p-6 rounded-2xl overflow-hidden">
+            <h3 className="text-lg font-bold text-indigo-400 mb-6 flex items-center gap-2">⚙️ Automation Engines</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-slate-800 text-slate-500">
+                    <th className="pb-3 font-semibold text-left">Feature</th>
+                    <th className="pb-3 font-semibold text-left">Zapier</th>
+                    <th className="pb-3 font-semibold text-left">Make.com</th>
+                    <th className="pb-3 font-semibold text-right">Self-Hosted n8n</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Runs Limit</td>
+                    <td className="py-3 text-slate-400">Strict Cap</td>
+                    <td className="py-3 text-slate-400">Strict Cap</td>
+                    <td className="py-3 text-right text-[#10b981] font-bold">Unlimited (Free)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Cost at 50k runs</td>
+                    <td className="py-3 text-red-400">$674/mo</td>
+                    <td className="py-3 text-slate-300">$84.72/mo</td>
+                    <td className="py-3 text-right text-[#10b981] font-bold">$5.00/mo (VPS droplet)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Custom Code Block</td>
+                    <td className="py-3 text-slate-400">Basic JS/Python</td>
+                    <td className="py-3 text-slate-400">Needs External Server</td>
+                    <td className="py-3 text-right text-[#10b981]">Full npm packages (Unlimited)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">GDPR & Privacy</td>
+                    <td className="py-3 text-slate-400">Cloud Hosting Only</td>
+                    <td className="py-3 text-slate-400">Cloud Hosting Only</td>
+                    <td className="py-3 text-right text-[#10b981] font-bold">100% Secure Local Hosting</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 font-medium text-slate-300">Complex Looping</td>
+                    <td className="py-3 text-slate-400">Fragile / Sub-zaps</td>
+                    <td className="py-3 text-slate-300">Iterators / Aggregators</td>
+                    <td className="py-3 text-right text-white">Infinite loops allowed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* STRATEGIC INFRASTRUCTURE CALLOUT */}
       <section id="about" className="w-full max-w-5xl mx-auto px-6 py-12 mb-16">
         <div className="glass-panel p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-8 bg-gradient-to-br from-indigo-950/10 to-slate-900/80">

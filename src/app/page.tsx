@@ -167,7 +167,7 @@ export default function Home() {
         </nav>
         <div>
           <a
-            href="https://www.upwork.com/freelancers/~017c6031f77d3419df"
+            href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
             target="_blank"
             className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/30"
           >
@@ -513,7 +513,7 @@ export default function Home() {
                     <span className="text-[10px] text-slate-400 block">Flat / Month</span>
                   </div>
                   <a
-                    href="https://www.upwork.com/freelancers/~017c6031f77d3419df"
+                    href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
                     target="_blank"
                     className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-md shadow-indigo-600/30"
                   >
@@ -629,7 +629,7 @@ export default function Home() {
               </div>
             </div>
             <a
-              href="https://www.upwork.com/freelancers/~017c6031f77d3419df"
+              href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
               target="_blank"
               className="w-full py-3 px-5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-lg shadow-indigo-600/25"
             >

@@ -350,7 +350,7 @@ export default function Home() {
                     <span className="text-slate-300 text-right">${vapiResult.breakdown.telephony.toFixed(2)}</span>
                     <span className="text-slate-500">Deepgram STT:</span>
                     <span className="text-slate-300 text-right">${vapiResult.breakdown.stt.toFixed(2)}</span>
-                    <span className="text-slate-500">Voice Synthesis (TTS):</span>
+                    <span className="text-slate-500">Voice Synthesis (<a href="https://try.elevenlabs.io/5cdakn4gv0w6" target="_blank" className="underline hover:text-indigo-400">TTS</a>):</span>
                     <span className="text-slate-300 text-right">${vapiResult.breakdown.tts.toFixed(2)}</span>
                     <span className="text-slate-500">LLM Inference:</span>
                     <span className="text-slate-300 text-right">${vapiResult.breakdown.llm.toFixed(2)}</span>
@@ -384,7 +384,7 @@ export default function Home() {
                     <span className="text-slate-300 text-right">${retellResult.breakdown.platform.toFixed(2)}</span>
                     <span className="text-slate-500">Telephony Routing:</span>
                     <span className="text-slate-300 text-right">${retellResult.breakdown.telephony.toFixed(2)}</span>
-                    <span className="text-slate-500">Voice Synthesis (TTS):</span>
+                    <span className="text-slate-500">Voice Synthesis (<a href="https://try.elevenlabs.io/5cdakn4gv0w6" target="_blank" className="underline hover:text-indigo-400">TTS</a>):</span>
                     <span className="text-slate-300 text-right">${retellResult.breakdown.tts.toFixed(2)}</span>
                     <span className="text-slate-500">LLM Inference:</span>
                     <span className="text-slate-300 text-right">${retellResult.breakdown.llm.toFixed(2)}</span>
@@ -419,7 +419,7 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs border-t border-slate-800/80 pt-3">
                     <span className="text-slate-500">Bland Base Rate:</span>
                     <span className="text-slate-300 text-right">${blandResult.breakdown.platform.toFixed(2)}</span>
-                    <span className="text-slate-500">ElevenLabs TTS (Optional):</span>
+                    <span className="text-slate-500"><a href="https://try.elevenlabs.io/5cdakn4gv0w6" target="_blank" className="underline hover:text-indigo-400">ElevenLabs TTS</a> (Optional):</span>
                     <span className="text-slate-300 text-right">${blandResult.breakdown.tts.toFixed(2)}</span>
                   </div>
                 </div>

@@ -540,7 +540,7 @@ export default function Home() {
                     <span className="text-[10px] text-slate-400 block">Per Month</span>
                   </div>
                   <a
-                    href="https://make.com"
+                    href="https://www.make.com/?pc=agentstackio"
                     target="_blank"
                     className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
                   >

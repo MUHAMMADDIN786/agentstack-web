@@ -3,13 +3,17 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"voice" | "workflow">("voice");
+  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "workflow" | "latency">("voice");
 
   // Voice AI State
   const [callMinutes, setCallMinutes] = useState<number>(5000);
   const [telephony, setTelephony] = useState<"native" | "byon">("native");
   const [ttsProvider, setTtsProvider] = useState<"elevenlabs" | "cartesia" | "deepgram">("cartesia");
   const [llmModel, setLlmModel] = useState<"gpt-4o-mini" | "claude-sonnet">("gpt-4o-mini");
+
+  // LLM Calculator State
+  const [inputTokens, setInputTokens] = useState<number>(500000);
+  const [outputTokens, setOutputTokens] = useState<number>(200000);
 
   // Workflow State
   const [monthlyTasks, setMonthlyTasks] = useState<number>(20000);
@@ -191,26 +195,46 @@ export default function Home() {
 
       {/* TABS CONTROLLER */}
       <div id="calculator" className="w-full max-w-5xl mx-auto px-6 mb-12">
-        <div className="flex p-1 bg-slate-900/60 border border-slate-800 rounded-xl max-w-md mx-auto mb-12">
+        <div className="flex flex-wrap p-1 bg-slate-900/60 border border-slate-800 rounded-xl max-w-2xl mx-auto mb-12 gap-1 md:gap-0">
           <button
             onClick={() => setActiveTab("voice")}
-            className={`flex-1 py-3 text-sm font-semibold rounded-lg transition-all ${
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
               activeTab === "voice"
                 ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            🎙️ Voice AI Agents
+            🎙️ Voice AI
+          </button>
+          <button
+            onClick={() => setActiveTab("llm")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "llm"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            🧠 LLM Cost
           </button>
           <button
             onClick={() => setActiveTab("workflow")}
-            className={`flex-1 py-3 text-sm font-semibold rounded-lg transition-all ${
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
               activeTab === "workflow"
                 ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            ⚙️ Workflow Automation
+            ⚙️ Workflows
+          </button>
+          <button
+            onClick={() => setActiveTab("latency")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "latency"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            ⚡ Latency Leaderboard
           </button>
         </div>
 
@@ -442,6 +466,97 @@ export default function Home() {
           </div>
         )}
 
+        {/* TAB: LLM CALCULATOR */}
+        {activeTab === "llm" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* INPUTS COLUMN */}
+            <div className="lg:col-span-5 glass-panel p-6 rounded-2xl flex flex-col gap-6">
+              <h2 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Configure Token Volumes</h2>
+              
+              {/* Input Tokens Slider */}
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-slate-400">Monthly Input Tokens:</span>
+                  <span className="text-white font-bold text-lg">{(inputTokens / 1000).toLocaleString()}k</span>
+                </div>
+                <input
+                  type="range"
+                  min="10000"
+                  max="10000000"
+                  step="10000"
+                  value={inputTokens}
+                  onChange={(e) => setInputTokens(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[10px] text-slate-500 text-right font-light">Prompts, instructions, semantic context</span>
+              </div>
+
+              {/* Output Tokens Slider */}
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-slate-400">Monthly Output Tokens:</span>
+                  <span className="text-white font-bold text-lg">{(outputTokens / 1000).toLocaleString()}k</span>
+                </div>
+                <input
+                  type="range"
+                  min="5000"
+                  max="5000000"
+                  step="5000"
+                  value={outputTokens}
+                  onChange={(e) => setOutputTokens(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[10px] text-slate-500 text-right font-light">Tokens generated by AI response</span>
+              </div>
+            </div>
+
+            {/* RESULTS COLUMN */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              {[
+                { name: "GPT-4o-mini", provider: "OpenAI", inRate: 0.15, outRate: 0.60, url: "https://platform.openai.com", note: "Best speed and price ratio for simple logic and structured outputs." },
+                { name: "Claude 3.5 Sonnet", provider: "Anthropic", inRate: 3.00, outRate: 15.00, url: "https://console.anthropic.com", note: "Industry standard for complex logic, multi-step code generation, and complex tasks." },
+                { name: "GPT-4o", provider: "OpenAI", inRate: 5.00, outRate: 15.00, url: "https://platform.openai.com", note: "High general intelligence, excellent tool execution and multilingual translation." },
+                { name: "Claude 3.5 Haiku", provider: "Anthropic", inRate: 0.80, outRate: 4.00, url: "https://console.anthropic.com", note: "Blazing fast response speeds, excellent for low-latency voice bot integrations." },
+                { name: "Gemini 1.5 Flash", provider: "Google", inRate: 0.075, outRate: 0.30, url: "https://aistudio.google.com", note: "Cheapest model, massive context window (2M tokens) for document-heavy parsing." },
+                { name: "Gemini 1.5 Pro", provider: "Google", inRate: 1.25, outRate: 5.00, url: "https://aistudio.google.com", note: "High intelligence and massive context. Perfect for complex document RAG audits." }
+              ].map((model) => {
+                const totalCost = (inputTokens * model.inRate) / 1000000 + (outputTokens * model.outRate) / 1000000;
+                return (
+                  <div key={model.name} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-1">{model.name}</h3>
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">By {model.provider}</span>
+                        <p className="text-xs text-slate-400 max-w-sm">{model.note}</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-xs border-t border-slate-800/80 pt-3 text-slate-500">
+                        <span>Input (${model.inRate.toFixed(3)}/1M):</span>
+                        <span className="text-slate-300 text-right">${((inputTokens * model.inRate) / 1000000).toFixed(2)}</span>
+                        <span>Output (${model.outRate.toFixed(3)}/1M):</span>
+                        <span className="text-slate-300 text-right">${((outputTokens * model.outRate) / 1000000).toFixed(2)}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between items-end border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-6 min-w-[140px]">
+                      <div className="text-right">
+                        <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
+                        <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
+                        <span className="text-[10px] text-slate-400 block">For {((inputTokens + outputTokens) / 1000).toLocaleString()}k tokens</span>
+                      </div>
+                      <a
+                        href={model.url}
+                        target="_blank"
+                        className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
+                      >
+                        API Dashboard
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* TAB 2: WORKFLOW CALCULATOR */}
         {activeTab === "workflow" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -602,6 +717,85 @@ export default function Home() {
                   </a>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: LATENCY LEADERBOARD */}
+        {activeTab === "latency" && (
+          <div className="glass-panel p-6 sm:p-8 rounded-2xl flex flex-col gap-8">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-2">Live Conversational Latency Benchmarks</h2>
+              <p className="text-xs text-slate-400">
+                Turn-taking response delay (in milliseconds) across popular speech-to-text, LLM, and synthesis pipelines. Human conversational response delay is around **300ms - 400ms**.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              {[
+                {
+                  title: "OpenAI Realtime API (Direct WebSockets)",
+                  desc: "Direct web socket stream of speech tokens. Ultra fast but extremely high operational tokens cost.",
+                  stt: 90, llm: 140, tts: 80, overhead: 40,
+                  total: 350,
+                  status: "Near-Human Speed",
+                  color: "bg-[#10b981]"
+                },
+                {
+                  title: "Vapi.ai (Deepgram Nova-2 + GPT-4o-mini + Cartesia)",
+                  desc: "Most optimized production pipeline. Incredible response times with high cost savings.",
+                  stt: 120, llm: 180, tts: 90, overhead: 120,
+                  total: 510,
+                  status: "Highly Responsive",
+                  color: "bg-[#10b981]"
+                },
+                {
+                  title: "Retell AI (Deepgram Nova-2 + Claude 3.5 Sonnet + ElevenLabs)",
+                  desc: "Premium natural voice quality with advanced reasoning, yielding a minor latency trade-off.",
+                  stt: 120, llm: 350, tts: 210, overhead: 120,
+                  total: 800,
+                  status: "Acceptable Pause",
+                  color: "bg-indigo-500"
+                },
+                {
+                  title: "Bland AI (Standard Telephony)",
+                  desc: "Flat-rate outbound calling pipeline. Capped context latency, best suited for voicemail automation.",
+                  stt: 200, llm: 500, tts: 250, overhead: 150,
+                  total: 1100,
+                  status: "Noticeable Delay",
+                  color: "bg-red-500"
+                }
+              ].map((stack) => {
+                const percent = Math.min((stack.total / 1200) * 100, 100);
+                return (
+                  <div key={stack.title} className="flex flex-col gap-2 border-b border-slate-800/40 pb-4 last:border-b-0 last:pb-0">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                      <div>
+                        <h3 className="text-sm font-bold text-white">{stack.title}</h3>
+                        <p className="text-[11px] text-slate-400 max-w-xl">{stack.desc}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-lg font-bold text-white block">{stack.total}ms</span>
+                        <span className="text-[10px] text-slate-500 block uppercase tracking-wider font-semibold">{stack.status}</span>
+                      </div>
+                    </div>
+
+                    <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden flex relative mt-1">
+                      <div 
+                        style={{ width: `${percent}%` }}
+                        className={`h-full ${stack.color} rounded-full transition-all duration-500`}
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-slate-500 font-medium mt-1">
+                      <span>STT Ingestion: <strong className="text-slate-400">{stack.stt}ms</strong></span>
+                      <span>LLM Inference: <strong className="text-slate-400">{stack.llm}ms</strong></span>
+                      <span>TTS Voice Synthesis: <strong className="text-slate-400">{stack.tts}ms</strong></span>
+                      <span>Transport & BYON Overhead: <strong className="text-slate-400">{stack.overhead}ms</strong></span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AgentStack | AI Voice & Automation Cost Calculators",
   description: "Compare running costs, latency, and features of Vapi, Retell AI, Bland AI, ElevenLabs, Make.com, and Zapier in seconds. Optimize platform spending.",
+  verification: {
+    google: "TQ_YjrHmLd6mlF4RnFNXhLyJrEa4roJSCIsUNYHa-Xw",
+  },
 };
 
 export default function RootLayout({

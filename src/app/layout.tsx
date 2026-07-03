@@ -13,8 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AgentStack | AI Voice & Automation Cost Calculators",
-  description: "Compare running costs, latency, and features of Vapi, Retell AI, Bland AI, ElevenLabs, Make.com, and Zapier in seconds. Optimize platform spending.",
+  title: "AgentStack Calc | AI Voice, LLM & Workflow Cost Calculator",
+  description: "Compare API costs and latency for Vapi, Retell AI, Bland AI, ElevenLabs, SpeakSay, Cartesia, Deepgram, n8n, Make, and Zapier. Optimize platform spending dynamically.",
+  keywords: [
+    "vapi cost calculator",
+    "retell ai pricing",
+    "bland ai vs vapi",
+    "elevenlabs pricing",
+    "speaksay cost",
+    "cartesia ai calculator",
+    "n8n vs zapier savings",
+    "ai voice agent cost",
+    "llm cost comparison",
+    "deepseek pricing tool",
+    "sora API cost estimator"
+  ],
   verification: {
     google: "TQ_YjrHmLd6mlF4RnFNXhLyJrEa4roJSCIsUNYHa-Xw",
   },

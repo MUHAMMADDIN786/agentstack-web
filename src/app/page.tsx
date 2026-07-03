@@ -238,7 +238,7 @@ export default function Home() {
       <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-tight text-white">
-            AgentStack<span className="text-[#10b981] font-extrabold">.io</span>
+            AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
           </span>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
@@ -1410,7 +1410,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="mt-auto border-t border-slate-900 bg-slate-950/40 py-8 px-6 text-center text-xs text-slate-500 flex flex-col gap-4">
-        <p>© 2026 AgentStack.io · Transparency layer for AI infrastructure. Affiliate disclaimer: some outgoing platform links may generate referral commissions at zero cost to you.</p>
+        <p>© 2026 AgentStackCalc.com · Transparency layer for AI infrastructure. Affiliate disclaimer: some outgoing platform links may generate referral commissions at zero cost to you.</p>
         <div className="flex justify-center gap-6 text-[11px] text-slate-400 font-medium">
           <a href="/about" className="hover:underline hover:text-white transition-colors">About Us</a>
           <a href="/contact" className="hover:underline hover:text-white transition-colors">Contact Us</a>

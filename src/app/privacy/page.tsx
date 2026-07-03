@@ -7,7 +7,7 @@ export default function PrivacyPage() {
       <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-slate-900 bg-slate-950/80 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <a href="/" className="text-2xl font-bold tracking-tight text-white">
-            AgentStack<span className="text-[#10b981] font-extrabold">.io</span>
+            AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
           </a>
         </div>
         <nav className="flex items-center gap-6 text-sm font-medium text-slate-300">
@@ -30,12 +30,12 @@ export default function PrivacyPage() {
           <p className="text-xs text-slate-500">Last updated: July 3, 2026</p>
           
           <p>
-            At AgentStack.io, we value the privacy and security of our users. This Privacy Policy details how we handle user inputs, cookies, and data transparency across our calculators and code auditing tools.
+            At AgentStackCalc.com, we value the privacy and security of our users. This Privacy Policy details how we handle user inputs, cookies, and data transparency across our calculators and code auditing tools.
           </p>
 
           <h2 className="text-xl font-bold text-white mt-6 mb-2">1. Data Storage & Local Ingestion</h2>
           <p>
-            AgentStack.io does **not** store, record, or upload any user-provided data inputs to remote database servers. All slider modifications (Monthly Call Minutes, Token volumes, tasks), code snippets pasted into the API Code Auditor, and calculation metrics are processed and rendered **locally in your browser memory**.
+            AgentStackCalc.com does **not** store, record, or upload any user-provided data inputs to remote database servers. All slider modifications (Monthly Call Minutes, Token volumes, tasks), code snippets pasted into the API Code Auditor, and calculation metrics are processed and rendered **locally in your browser memory**.
           </p>
           <p>
             Once you close your browser tab or refresh the page, all pasted code inputs and calculator histories are completely deleted from your browser memory.
@@ -53,14 +53,14 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-bold text-white mt-6 mb-2">4. Contact Us</h2>
           <p>
-            If you have questions regarding this policy or data safety on AgentStack.io, please contact us at **azzadaamir786@gmail.com**.
+            If you have questions regarding this policy or data safety on AgentStackCalc.com, please contact us at **azzadaamir786@gmail.com**.
           </p>
         </div>
       </main>
 
       {/* FOOTER */}
       <footer className="w-full border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500 bg-slate-950 mt-auto">
-        <p className="mb-2">© 2026 AgentStack.io · Transparency layer for AI infrastructure.</p>
+        <p className="mb-2">© 2026 AgentStackCalc.com · Transparency layer for AI infrastructure.</p>
         <div className="flex justify-center gap-4 text-[11px] text-slate-400">
           <a href="/privacy" className="hover:underline">Privacy Policy</a>
           <a href="/terms" className="hover:underline">Terms of Service</a>

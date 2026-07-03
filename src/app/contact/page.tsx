@@ -7,7 +7,7 @@ export default function ContactPage() {
       <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-slate-900 bg-slate-950/80 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <a href="/" className="text-2xl font-bold tracking-tight text-white">
-            AgentStack<span className="text-[#10b981] font-extrabold">.io</span>
+            AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
           </a>
         </div>
         <nav className="flex items-center gap-6 text-sm font-medium text-slate-300">
@@ -23,7 +23,7 @@ export default function ContactPage() {
           Support & Consultation
         </span>
         <h1 className="text-4xl font-extrabold text-white tracking-tight mb-8">
-          Contact AgentStack.io
+          Contact AgentStackCalc.com
         </h1>
 
         <div className="flex flex-col gap-6 text-slate-300 text-sm leading-relaxed">
@@ -61,7 +61,7 @@ export default function ContactPage() {
 
       {/* FOOTER */}
       <footer className="w-full border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500 bg-slate-950 mt-auto">
-        <p className="mb-2">© 2026 AgentStack.io · Transparency layer for AI infrastructure.</p>
+        <p className="mb-2">© 2026 AgentStackCalc.com · Transparency layer for AI infrastructure.</p>
         <div className="flex justify-center gap-4 text-[11px] text-slate-400">
           <a href="/privacy" className="hover:underline">Privacy Policy</a>
           <a href="/terms" className="hover:underline">Terms of Service</a>

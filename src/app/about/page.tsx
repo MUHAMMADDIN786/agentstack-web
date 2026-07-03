@@ -7,7 +7,7 @@ export default function AboutPage() {
       <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-slate-900 bg-slate-950/80 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <a href="/" className="text-2xl font-bold tracking-tight text-white">
-            AgentStack<span className="text-[#10b981] font-extrabold">.io</span>
+            AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
           </a>
         </div>
         <nav className="flex items-center gap-6 text-sm font-medium text-slate-300">
@@ -23,7 +23,7 @@ export default function AboutPage() {
           Our Mission
         </span>
         <h1 className="text-4xl font-extrabold text-white tracking-tight mb-8">
-          About AgentStack.io
+          About AgentStackCalc.com
         </h1>
 
         <div className="flex flex-col gap-6 text-slate-300 text-sm leading-relaxed">
@@ -31,12 +31,12 @@ export default function AboutPage() {
             As artificial intelligence, LLMs, and voice automation scale globally, developers and companies face a significant bottleneck: **API pricing volatility and hidden infrastructure costs**.
           </p>
           <p>
-            AgentStack.io was founded to serve as a **cost transparency layer** for modern AI infrastructure. We believe that choosing an AI stack (STT, LLM, TTS, and Workflows) should be based on clear, factual comparison metrics rather than marketing guesswork.
+            AgentStackCalc.com was founded to serve as a **cost transparency layer** for modern AI infrastructure. We believe that choosing an AI stack (STT, LLM, TTS, and Workflows) should be based on clear, factual comparison metrics rather than marketing guesswork.
           </p>
 
           <h2 className="text-xl font-bold text-white mt-6 mb-2">Who We Are</h2>
           <p>
-            Developed by **Muhammad Din**, a Senior AI Engineer & Systems Architect, AgentStack.io provides dynamic, real-time calculators that translate monthly usage (tokens, voice minutes, and tasks) into exact cost estimates across competing providers (OpenAI, Anthropic, Google, ElevenLabs, Vapi, Retell, and n8n).
+            Developed by **Muhammad Din**, a Senior AI Engineer & Systems Architect, AgentStackCalc.com provides dynamic, real-time calculators that translate monthly usage (tokens, voice minutes, and tasks) into exact cost estimates across competing providers (OpenAI, Anthropic, Google, ElevenLabs, Vapi, Retell, and n8n).
           </p>
 
           <h2 className="text-xl font-bold text-white mt-6 mb-2">Our Principles</h2>
@@ -50,7 +50,7 @@ export default function AboutPage() {
 
       {/* FOOTER */}
       <footer className="w-full border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500 bg-slate-950 mt-auto">
-        <p className="mb-2">© 2026 AgentStack.io · Transparency layer for AI infrastructure.</p>
+        <p className="mb-2">© 2026 AgentStackCalc.com · Transparency layer for AI infrastructure.</p>
         <div className="flex justify-center gap-4 text-[11px] text-slate-400">
           <a href="/privacy" className="hover:underline">Privacy Policy</a>
           <a href="/terms" className="hover:underline">Terms of Service</a>

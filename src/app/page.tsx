@@ -553,6 +553,7 @@ export default function Home() {
             <div className="lg:col-span-7 flex flex-col gap-6">
               {[
                 { name: "GPT-4o-mini", provider: "OpenAI", inRate: 0.15, outRate: 0.60, url: "https://platform.openai.com", note: "Best speed and price ratio for simple logic and structured outputs." },
+                { name: "DeepSeek-V3", provider: "DeepSeek", inRate: 0.14, outRate: 0.28, url: "https://platform.deepseek.com", note: "Incredibly cheap, high-intelligence open-weights model matching GPT-4o capabilities at a fraction of the cost." },
                 { name: "Claude 3.5 Sonnet", provider: "Anthropic", inRate: 3.00, outRate: 15.00, url: "https://console.anthropic.com", note: "Industry standard for complex logic, multi-step code generation, and complex tasks." },
                 { name: "GPT-4o", provider: "OpenAI", inRate: 5.00, outRate: 15.00, url: "https://platform.openai.com", note: "High general intelligence, excellent tool execution and multilingual translation." },
                 { name: "Claude 3.5 Haiku", provider: "Anthropic", inRate: 0.80, outRate: 4.00, url: "https://console.anthropic.com", note: "Blazing fast response speeds, excellent for low-latency voice bot integrations." },

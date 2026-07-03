@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "workflow" | "latency">("voice");
+  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "tts" | "stt" | "workflow" | "latency">("voice");
 
   // Voice AI State
   const [callMinutes, setCallMinutes] = useState<number>(5000);
@@ -14,6 +14,12 @@ export default function Home() {
   // LLM Calculator State
   const [inputTokens, setInputTokens] = useState<number>(500000);
   const [outputTokens, setOutputTokens] = useState<number>(200000);
+
+  // TTS Calculator State
+  const [ttsChars, setTtsChars] = useState<number>(1000000);
+
+  // STT Calculator State
+  const [sttHours, setSttHours] = useState<number>(200);
 
   // Workflow State
   const [monthlyTasks, setMonthlyTasks] = useState<number>(20000);
@@ -195,7 +201,7 @@ export default function Home() {
 
       {/* TABS CONTROLLER */}
       <div id="calculator" className="w-full max-w-5xl mx-auto px-6 mb-12">
-        <div className="flex flex-wrap p-1 bg-slate-900/60 border border-slate-800 rounded-xl max-w-2xl mx-auto mb-12 gap-1 md:gap-0">
+        <div className="flex flex-wrap p-1 bg-slate-900/60 border border-slate-800 rounded-xl max-w-4xl mx-auto mb-12 gap-1 md:gap-0">
           <button
             onClick={() => setActiveTab("voice")}
             className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
@@ -217,6 +223,26 @@ export default function Home() {
             🧠 LLM Cost
           </button>
           <button
+            onClick={() => setActiveTab("tts")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "tts"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            🗣️ TTS Voice
+          </button>
+          <button
+            onClick={() => setActiveTab("stt")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "stt"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            📝 STT Transcribe
+          </button>
+          <button
             onClick={() => setActiveTab("workflow")}
             className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
               activeTab === "workflow"
@@ -234,7 +260,7 @@ export default function Home() {
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            ⚡ Latency Leaderboard
+            ⚡ Latency
           </button>
         </div>
 
@@ -541,6 +567,145 @@ export default function Home() {
                         <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
                         <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
                         <span className="text-[10px] text-slate-400 block">For {((inputTokens + outputTokens) / 1000).toLocaleString()}k tokens</span>
+                      </div>
+                      <a
+                        href={model.url}
+                        target="_blank"
+                        className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
+                      >
+                        API Dashboard
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: TTS CALCULATOR */}
+        {activeTab === "tts" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* INPUTS COLUMN */}
+            <div className="lg:col-span-5 glass-panel p-6 rounded-2xl flex flex-col gap-6">
+              <h2 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Configure Audio Volumes</h2>
+              
+              {/* TTS Characters Slider */}
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-slate-400">Monthly Characters:</span>
+                  <span className="text-white font-bold text-lg">{ttsChars.toLocaleString()} chars</span>
+                </div>
+                <input
+                  type="range"
+                  min="50000"
+                  max="20000000"
+                  step="50000"
+                  value={ttsChars}
+                  onChange={(e) => setTtsChars(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[10px] text-slate-500 text-right font-light">Approx. {Math.round(ttsChars / 750).toLocaleString()} voice output minutes</span>
+              </div>
+            </div>
+
+            {/* RESULTS COLUMN */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              {[
+                { name: "SpeakSay.com Pro", provider: "SpeakSay", ratePer1k: 0.017, url: "https://speaksay.com", note: "Outstanding pricing and high-fidelity multilingual voice clones. Best for budget scaling." },
+                { name: "Cartesia Sonic", provider: "Cartesia", ratePer1k: 0.002, url: "https://cartesia.ai", note: "Lightning-fast audio generation (sub-100ms first byte). The industry standard for real-time bots." },
+                { name: "Deepgram Aura", provider: "Deepgram", ratePer1k: 0.015, url: "https://deepgram.com", note: "Low-latency synthesized voices fully optimized for conversational dialog agents." },
+                { name: "ElevenLabs API", provider: "ElevenLabs", ratePer1k: 0.15, url: "https://try.elevenlabs.io/5cdakn4gv0w6", note: "Unmatched emotional depth and realistic vocal inflections. Premium quality but high API costs." },
+                { name: "Play.ht API", provider: "Play.ht", ratePer1k: 0.050, url: "https://play.ht", note: "Massive library of cloned and conversational voices for general speech tasks." }
+              ].map((model) => {
+                const totalCost = (ttsChars * model.ratePer1k) / 1000;
+                return (
+                  <div key={model.name} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-1">{model.name}</h3>
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">By {model.provider}</span>
+                        <p className="text-xs text-slate-400 max-w-sm">{model.note}</p>
+                      </div>
+                      <div className="text-xs border-t border-slate-800/80 pt-3 text-slate-500 flex justify-between">
+                        <span>API Rate:</span>
+                        <span className="text-slate-300">${model.ratePer1k.toFixed(3)} / 1,000 chars</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between items-end border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-6 min-w-[140px]">
+                      <div className="text-right">
+                        <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
+                        <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
+                        <span className="text-[10px] text-slate-400 block">For {(ttsChars / 1000).toLocaleString()}k chars</span>
+                      </div>
+                      <a
+                        href={model.url}
+                        target="_blank"
+                        className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
+                      >
+                        API Dashboard
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: STT CALCULATOR */}
+        {activeTab === "stt" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* INPUTS COLUMN */}
+            <div className="lg:col-span-5 glass-panel p-6 rounded-2xl flex flex-col gap-6">
+              <h2 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Configure Audio Hours</h2>
+              
+              {/* STT Hours Slider */}
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-slate-400">Monthly Audio:</span>
+                  <span className="text-white font-bold text-lg">{sttHours.toLocaleString()} Hours</span>
+                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="10000"
+                  step="10"
+                  value={sttHours}
+                  onChange={(e) => setSttHours(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[10px] text-slate-500 text-right font-light">Approx. {(sttHours * 60).toLocaleString()} total audio minutes</span>
+              </div>
+            </div>
+
+            {/* RESULTS COLUMN */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              {[
+                { name: "Deepgram Nova-2", provider: "Deepgram", ratePerHr: 0.0043 * 60, url: "https://deepgram.com", note: "Unmatched speed and lowest word error rate (WER) for live streaming transcriptions." },
+                { name: "AssemblyAI Best", provider: "AssemblyAI", ratePerHr: 0.37, url: "https://assemblyai.com", note: "Highly accurate and robust for async audio files, includes automatic speaker diarization." },
+                { name: "OpenAI Whisper API", provider: "OpenAI", ratePerHr: 0.006 * 60, url: "https://platform.openai.com", note: "Excellent translation and accents decoding. Capped by higher file-upload wait limits." },
+                { name: "Gladia API", provider: "Gladia", ratePerHr: 0.57, url: "https://gladia.io", note: "Advanced enterprise routing, real-time code-switching, and multilingual compliance logs." }
+              ].map((model) => {
+                const totalCost = sttHours * model.ratePerHr;
+                return (
+                  <div key={model.name} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-1">{model.name}</h3>
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">By {model.provider}</span>
+                        <p className="text-xs text-slate-400 max-w-sm">{model.note}</p>
+                      </div>
+                      <div className="text-xs border-t border-slate-800/80 pt-3 text-slate-500 flex justify-between">
+                        <span>API Rate:</span>
+                        <span className="text-slate-300">${model.ratePerHr.toFixed(3)} / Hour</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between items-end border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-6 min-w-[140px]">
+                      <div className="text-right">
+                        <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
+                        <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
+                        <span className="text-[10px] text-slate-400 block">For {sttHours.toLocaleString()} hours</span>
                       </div>
                       <a
                         href={model.url}

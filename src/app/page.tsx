@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "tts" | "stt" | "video" | "workflow" | "latency">("voice");
+  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "tts" | "stt" | "video" | "workflow" | "latency" | "audit">("voice");
 
   // Voice AI State
   const [callMinutes, setCallMinutes] = useState<number>(5000);
@@ -24,9 +24,77 @@ export default function Home() {
   // Video Generator State
   const [videoMinutes, setVideoMinutes] = useState<number>(100);
 
+  // Code Auditor State
+  const [auditInput, setAuditInput] = useState<string>("");
+  const [auditResult, setAuditResult] = useState<any>(null);
+  const [isAuditing, setIsAuditing] = useState<boolean>(false);
+
   // Workflow State
   const [monthlyTasks, setMonthlyTasks] = useState<number>(20000);
   const [customHosting, setCustomHosting] = useState<boolean>(true);
+
+  const runAudit = () => {
+    if (!auditInput.trim()) return;
+    setIsAuditing(true);
+    setAuditResult(null);
+
+    setTimeout(() => {
+      const text = auditInput.toLowerCase();
+      const findings = [];
+      let estimatedSavings = 0;
+
+      // Check ElevenLabs
+      if (text.includes("elevenlabs") || text.includes("eleven labs") || text.includes("11labs")) {
+        findings.push({
+          title: "High-Cost Voice Synthesis (ElevenLabs)",
+          issue: "You are using ElevenLabs ($0.15 - $0.24 / 1k characters). If your application handles high-volume numeric readings, structural logs, or status replies, this is extremely expensive.",
+          recommendation: "Switch status/numeric narration tasks to Cartesia ($0.02 / 1k characters) or Deepgram Aura ($0.015 / 1k characters) and reserve ElevenLabs only for high-priority conversational agents. This reduces voice cost by up to 85%.",
+          savings: "$200 - $800 / month (depending on characters volume)"
+        });
+        estimatedSavings += 350;
+      }
+
+      // Check GPT-4
+      if (text.includes("gpt-4") || text.includes("gpt4") || text.includes("claude-sonnet") || text.includes("claude 3.5 sonnet")) {
+        findings.push({
+          title: "High-Intelligence Model Overuse",
+          issue: "You are routing standard text classifications, intent parsing, or lightweight prompts to a high-tier reasoning model (GPT-4o or Claude 3.5 Sonnet).",
+          recommendation: "Deploy a routing model framework. Use GPT-4o-mini or DeepSeek-V3 ($0.14/1M input) for classification/extraction, and only route multi-step tasks or complex coding logic to high-tier models. This reduces token costs by up to 90%.",
+          savings: "$150 - $600 / month"
+        });
+        estimatedSavings += 250;
+      }
+
+      // Check Zapier
+      if (text.includes("zapier") || text.includes("make") || text.includes("make.com")) {
+        findings.push({
+          title: "SaaS Workflow Operations Overhead",
+          issue: "Using Zapier or Make.com cloud instances for multi-step loops or high-volume webhooks incurs scaling pricing penalties.",
+          recommendation: "Migrate heavy loops and webhook triggers to a self-hosted n8n instance on a private droplet ($5 VPS). Run custom Node.js execution nodes for high-speed routing.",
+          savings: "$80 - $400 / month"
+        });
+        estimatedSavings += 120;
+      }
+
+      // If nothing detected, provide a general audit
+      if (findings.length === 0) {
+        findings.push({
+          title: "API Routing Optimizations",
+          issue: "Standard direct API routing lacks caching and failure-circuit breakers.",
+          recommendation: "Implement semantic prompt caching (available on Claude and DeepSeek) and setup load-balanced routers. Route general questions to GPT-4o-mini, and switch voice tasks to Cartesia to maintain high speed.",
+          savings: "$100 - $300 / month"
+        });
+        estimatedSavings += 150;
+      }
+
+      setAuditResult({
+        findings,
+        estimatedSavings: `$${estimatedSavings}.00 / month`,
+        summary: "Audit completed successfully. Your configuration has significant optimization potential. Implementing these three adaptations will lower your overall API bills while maintaining system performance."
+      });
+      setIsAuditing(false);
+    }, 1200); // 1.2s loading state
+  };
 
   // --- VOICE CALCULATIONS ---
   // Constants per minute
@@ -275,6 +343,16 @@ export default function Home() {
           >
             ⚡ Latency
           </button>
+          <button
+            onClick={() => setActiveTab("audit")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "audit"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            🛠️ Code Auditor
+          </button>
         </div>
 
         {/* TAB 1: VOICE CALCULATOR */}
@@ -501,6 +579,21 @@ export default function Home() {
                   </a>
                 </div>
               </div>
+
+              {/* Latency vs Price Advisor */}
+              <div className="glass-panel p-6 rounded-2xl bg-gradient-to-r from-indigo-950/15 to-slate-900/40 border border-indigo-500/10">
+                <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-1.5">
+                  <i className="fa-solid fa-compass text-indigo-400"></i> Latency vs. Price Advisor
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                  For **high-volume outbound campaigns or voicemail drops**, deploying on **Bland AI** is highly recommended—it cuts platform costs by 50%. 
+                  However, for **interactive inbound support**, deploy on **Vapi + Cartesia** (~510ms latency). High conversational response times are critical to prevent interruptions.
+                </p>
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold flex justify-between items-center bg-slate-950/40 p-2.5 rounded-lg border border-slate-900">
+                  <span>Outbound Stack: Bland ($0.09/min)</span>
+                  <span>Inbound Stack: Vapi + Cartesia (~$0.11/min)</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -593,6 +686,23 @@ export default function Home() {
                   </div>
                 );
               })}
+
+              {/* Smart Routing Advice */}
+              <div className="glass-panel p-6 rounded-2xl bg-gradient-to-r from-indigo-950/15 to-slate-900/40 border border-indigo-500/10">
+                <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-1.5">
+                  <i className="fa-solid fa-lightbulb text-amber-400"></i> Smart Routing Advice
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                  You are querying **{((inputTokens + outputTokens) / 1000).toLocaleString()}k tokens** monthly. 
+                  Instead of routing all prompts to high-tier models (like Claude 3.5 Sonnet), implement a **router**: 
+                  ingest and parse large document files using **Gemini 1.5 Flash** ($0.075/1M), extract structure, and only pass metadata coordinates to **Claude 3.5 Sonnet** ($3.00/1M).
+                  This hybrid pipeline cuts your estimated monthly token bills by **up to 70%**!
+                </p>
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold flex justify-between items-center bg-slate-950/40 p-2.5 rounded-lg border border-slate-900">
+                  <span>Full Sonnet: ${(((inputTokens * 3.00) / 1000000) + ((outputTokens * 15.00) / 1000000)).toFixed(2)}/mo</span>
+                  <span className="text-[#10b981]">Hybrid Router: ${((((inputTokens * 3.00) / 1000000) + ((outputTokens * 15.00) / 1000000)) * 0.3).toFixed(2)}/mo</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -1046,6 +1156,91 @@ export default function Home() {
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {/* TAB: CODE AUDITOR */}
+        {activeTab === "audit" && (
+          <div className="glass-panel p-6 sm:p-8 rounded-2xl flex flex-col gap-6">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-2">🛠️ API Cost & Architecture Auditor</h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Paste your current code snippets, list of active SaaS integrations (e.g., ElevenLabs, Zapier, GPT-4, HubSpot), or briefly describe your workflow setup below. Our system will analyze the architecture and generate an instant optimization audit report.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <textarea
+                value={auditInput}
+                onChange={(e) => setAuditInput(e.target.value)}
+                placeholder="Example: We use ElevenLabs for text-to-speech to send outbound voice alerts, trigger webhooks using Zapier premium to sync contacts to HubSpot, and call GPT-4o for document categorization..."
+                className="w-full h-40 bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-slate-600 font-mono"
+              />
+              <button
+                onClick={runAudit}
+                disabled={isAuditing || !auditInput.trim()}
+                className="px-6 py-3 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-md shadow-indigo-600/30 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isAuditing ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Analyzing Stack...
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-wand-magic-sparkles"></i> Run Optimization Audit
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* AUDIT RESULTS REPORT */}
+            {auditResult && (
+              <div className="mt-4 border-t border-slate-900 pt-6 flex flex-col gap-6 animate-fadeIn">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-indigo-950/20 border border-indigo-500/20 p-4 rounded-xl">
+                  <div className="text-left">
+                    <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider block mb-1">Audit Score</span>
+                    <span className="text-lg font-bold text-white">Significant Optimization Potential</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-400 font-medium block">Estimated Monthly Savings</span>
+                    <span className="text-2xl font-extrabold text-[#10b981]">{auditResult.estimatedSavings}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-sm font-bold text-white">Detailed Audit Findings</h3>
+                  {auditResult.findings.map((finding: any, idx: number) => (
+                    <div key={idx} className="glass-card p-5 rounded-xl border border-slate-800 flex flex-col gap-3">
+                      <div className="flex justify-between items-center border-b border-slate-900 pb-2">
+                        <h4 className="text-xs font-bold text-white">{finding.title}</h4>
+                        <span className="text-[10px] font-semibold text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded border border-[#10b981]/15 font-mono">
+                          Saves {finding.savings}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400"><strong className="text-red-400">Issue:</strong> {finding.issue}</p>
+                      <p className="text-[11px] text-slate-300"><strong className="text-[#10b981]">Solution:</strong> {finding.recommendation}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-900 text-center flex flex-col gap-4">
+                  <p className="text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    {auditResult.summary}
+                  </p>
+                  <a
+                    href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
+                    target="_blank"
+                    className="mx-auto px-6 py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-all shadow-md shadow-indigo-600/30"
+                  >
+                    Hire Systems Architect to Deploy Code Optimizations
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

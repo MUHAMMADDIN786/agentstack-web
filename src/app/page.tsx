@@ -1409,8 +1409,14 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="mt-auto border-t border-slate-900 bg-slate-950/40 py-8 px-6 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t border-slate-900 bg-slate-950/40 py-8 px-6 text-center text-xs text-slate-500 flex flex-col gap-4">
         <p>© 2026 AgentStack.io · Transparency layer for AI infrastructure. Affiliate disclaimer: some outgoing platform links may generate referral commissions at zero cost to you.</p>
+        <div className="flex justify-center gap-6 text-[11px] text-slate-400 font-medium">
+          <a href="/about" className="hover:underline hover:text-white transition-colors">About Us</a>
+          <a href="/contact" className="hover:underline hover:text-white transition-colors">Contact Us</a>
+          <a href="/privacy" className="hover:underline hover:text-white transition-colors">Privacy Policy</a>
+          <a href="/terms" className="hover:underline hover:text-white transition-colors">Terms of Service</a>
+        </div>
       </footer>
     </div>
   );

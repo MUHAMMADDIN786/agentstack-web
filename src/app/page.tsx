@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "tts" | "stt" | "workflow" | "latency">("voice");
+  const [activeTab, setActiveTab] = useState<"voice" | "llm" | "tts" | "stt" | "video" | "workflow" | "latency">("voice");
 
   // Voice AI State
   const [callMinutes, setCallMinutes] = useState<number>(5000);
@@ -20,6 +20,9 @@ export default function Home() {
 
   // STT Calculator State
   const [sttHours, setSttHours] = useState<number>(200);
+
+  // Video Generator State
+  const [videoMinutes, setVideoMinutes] = useState<number>(100);
 
   // Workflow State
   const [monthlyTasks, setMonthlyTasks] = useState<number>(20000);
@@ -241,6 +244,16 @@ export default function Home() {
             }`}
           >
             📝 STT Transcribe
+          </button>
+          <button
+            onClick={() => setActiveTab("video")}
+            className={`flex-1 min-w-[120px] py-3 text-xs md:text-sm font-semibold rounded-lg transition-all ${
+              activeTab === "video"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            🎬 Video Gen
           </button>
           <button
             onClick={() => setActiveTab("workflow")}
@@ -706,6 +719,76 @@ export default function Home() {
                         <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
                         <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
                         <span className="text-[10px] text-slate-400 block">For {sttHours.toLocaleString()} hours</span>
+                      </div>
+                      <a
+                        href={model.url}
+                        target="_blank"
+                        className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
+                      >
+                        API Dashboard
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: VIDEO GENERATOR */}
+        {activeTab === "video" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* INPUTS COLUMN */}
+            <div className="lg:col-span-5 glass-panel p-6 rounded-2xl flex flex-col gap-6">
+              <h2 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Configure Video Volumes</h2>
+              
+              {/* Video Minutes Slider */}
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-slate-400">Monthly Video output:</span>
+                  <span className="text-white font-bold text-lg">{videoMinutes.toLocaleString()} Minutes</span>
+                </div>
+                <input
+                  type="range"
+                  min="5"
+                  max="1000"
+                  step="5"
+                  value={videoMinutes}
+                  onChange={(e) => setVideoMinutes(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[10px] text-slate-500 text-right font-light">Approx. {Math.round(videoMinutes * 12).toLocaleString()} generated 5-sec video clips</span>
+              </div>
+            </div>
+
+            {/* RESULTS COLUMN */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              {[
+                { name: "Runway Gen-3 Alpha API", provider: "RunwayML", ratePerMin: 15.00, url: "https://runwayml.com", note: "Photorealistic rendering and complex physics simulation. Standard choice for high-end cinematic ads." },
+                { name: "Sora API (Estimated)", provider: "OpenAI", ratePerMin: 10.00, url: "https://platform.openai.com", note: "Elite prompt-adherence, spatial consistency, and multi-camera angle simulation." },
+                { name: "Luma Dream Machine", provider: "Luma Labs", ratePerMin: 1.80, url: "https://lumalabs.ai", note: "Excellent speed and highly fluid camera movement pans. Very cost-efficient." },
+                { name: "MiniMax Video (Hailuo)", provider: "MiniMax", ratePerMin: 1.50, url: "https://hailuoai.com", note: "Exceptional representation of human movement and facial features at a low price point." },
+                { name: "Kling AI Pro API", provider: "Kuaishou", ratePerMin: 1.20, url: "https://klingai.com", note: "Outstanding pricing structure, supports custom camera motion variables." }
+              ].map((model) => {
+                const totalCost = videoMinutes * model.ratePerMin;
+                return (
+                  <div key={model.name} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-1">{model.name}</h3>
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">By {model.provider}</span>
+                        <p className="text-xs text-slate-400 max-w-sm">{model.note}</p>
+                      </div>
+                      <div className="text-xs border-t border-slate-800/80 pt-3 text-slate-500 flex justify-between">
+                        <span>API Rate:</span>
+                        <span className="text-slate-300">${model.ratePerMin.toFixed(2)} / Minute</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between items-end border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-6 min-w-[140px]">
+                      <div className="text-right">
+                        <span className="text-[10px] text-slate-500 uppercase block font-bold">Estimated Cost</span>
+                        <span className="text-3xl font-extrabold text-[#10b981]">${totalCost.toFixed(2)}</span>
+                        <span className="text-[10px] text-slate-400 block">For {videoMinutes.toLocaleString()} mins</span>
                       </div>
                       <a
                         href={model.url}

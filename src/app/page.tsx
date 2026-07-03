@@ -1076,6 +1076,23 @@ export default function Home() {
                   </a>
                 </div>
               </div>
+
+              {/* Workflow Migration Advisor */}
+              <div className="glass-panel p-6 rounded-2xl bg-gradient-to-r from-indigo-950/15 to-slate-900/40 border border-indigo-500/10">
+                <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-1.5">
+                  <i className="fa-solid fa-server text-indigo-400"></i> SaaS Automation vs. Self-Hosted n8n
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                  You are running **{monthlyTasks.toLocaleString()} task operations** monthly. 
+                  If you deploy on **Zapier**, you pay **${calcZapier().toFixed(2)}/mo**. 
+                  If you migrate to **n8n Self-Hosted on a VPS server**, your cost drops to **$5.00/mo** (flat price for VPS hosting, unlimited runs).
+                  This saves you **${(calcZapier() - 5.00).toFixed(2)}/mo** (a **98% cost reduction**)!
+                </p>
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold flex justify-between items-center bg-slate-950/40 p-2.5 rounded-lg border border-slate-900">
+                  <span>Zapier Cost: ${calcZapier().toFixed(2)}/mo</span>
+                  <span className="text-[#10b981]">n8n Self-Hosted Savings: 98%</span>
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -50,6 +50,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <Link href="/#calculator" className="hover:text-white transition-colors">Cost Simulators</Link>
           <Link href="/#comparison" className="hover:text-white transition-colors">Compare Platforms</Link>
           <Link href="/blog" className="hover:text-white transition-colors">Pricing Guides</Link>
+          <Link href="/voice" className="hover:text-white transition-colors">Voice Playground</Link>
         </nav>
         <div>
           <a

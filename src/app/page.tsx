@@ -505,7 +505,7 @@ export default function Home() {
                     <span className="text-[10px] text-slate-400 block">${vapiResult.ratePerMin.toFixed(3)} / min</span>
                   </div>
                   <a
-                    href="https://vapi.ai"
+                    href="https://vapi.ai/?aff=muhammaddin"
                     target="_blank"
                     className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
                   >

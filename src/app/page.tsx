@@ -748,6 +748,7 @@ export default function Home() {
             {/* RESULTS COLUMN */}
             <div className="lg:col-span-7 flex flex-col gap-6">
               {[
+                { name: "StackVoice (Self-Hosted)", provider: "StackVoice", ratePer1k: 0.000, url: "/voice", note: "Self-hosted open-source speech synthesis. Zero character fees, high speed, and complete data privacy control running on your own VPS.", buttonText: "Try Playground" },
                 { name: "SpeakSay.com Pro", provider: "SpeakSay", ratePer1k: 0.017, url: "https://speaksay.com", note: "Outstanding pricing and high-fidelity multilingual voice clones. Best for budget scaling." },
                 { name: "Cartesia Sonic", provider: "Cartesia", ratePer1k: 0.002, url: "https://cartesia.ai", note: "Lightning-fast audio generation (sub-100ms first byte). The industry standard for real-time bots." },
                 { name: "Deepgram Aura", provider: "Deepgram", ratePer1k: 0.015, url: "https://deepgram.com", note: "Low-latency synthesized voices fully optimized for conversational dialog agents." },
@@ -776,10 +777,10 @@ export default function Home() {
                       </div>
                       <a
                         href={model.url}
-                        target="_blank"
+                        target={model.url.startsWith("/") ? "_self" : "_blank"}
                         className="w-full mt-4 py-2 text-center text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
                       >
-                        API Dashboard
+                        {model.buttonText || "API Dashboard"}
                       </a>
                     </div>
                   </div>

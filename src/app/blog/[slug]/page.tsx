@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPostData } from '@/lib/blog';
+import WaitlistForm from '@/components/WaitlistForm';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -121,17 +122,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             </p>
             
             {/* Embedded Email Input Waitlist form */}
-            <form action="/contact" method="GET" className="flex flex-col gap-2">
-              <input 
-                type="email" 
-                placeholder="Developer Email" 
-                required 
-                className="w-full px-3 py-2.5 text-xs text-white bg-slate-900/60 border border-slate-800 rounded-xl focus:border-indigo-500 outline-none transition-all placeholder:text-slate-600"
-              />
-              <button type="submit" className="w-full py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl text-center transition-colors">
-                Apply for API Access
-              </button>
-            </form>
+            <WaitlistForm />
           </div>
 
         </aside>

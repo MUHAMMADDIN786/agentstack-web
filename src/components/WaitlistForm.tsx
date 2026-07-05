@@ -12,7 +12,7 @@ export default function WaitlistForm() {
 
     setStatus('submitting');
 
-    const webhookUrl = 'https://hook.eu1.make.com/5hve7wy9xo2pjdi88yb1okw3q8bl7tzt';
+    const webhookUrl = 'https://hook.eu1.make.com/xdsa7t7u9oovj1cxxeftuhaop4hv6xee';
     
     try {
       const response = await fetch(webhookUrl, {

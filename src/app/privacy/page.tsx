@@ -53,7 +53,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-bold text-white mt-6 mb-2">4. Contact Us</h2>
           <p>
-            If you have questions regarding this policy or data safety on AgentStackCalc.com, please contact us at **azzadaamir786@gmail.com**.
+            If you have questions regarding this policy or data safety on AgentStackCalc.com, please contact us at **mdin.engineer19@gmail.com**.
           </p>
         </div>
       </main>

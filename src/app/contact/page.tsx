@@ -45,7 +45,7 @@ export default function ContactPage() {
               💼 Hire on Upwork
             </a>
             <a
-              href="mailto:azzadaamir786@gmail.com"
+              href="mailto:mdin.engineer19@gmail.com"
               className="flex-1 text-center py-4 bg-slate-900 hover:bg-slate-800 text-white border border-slate-800 font-bold rounded-xl transition-all"
             >
               ✉️ Email Support
@@ -54,7 +54,7 @@ export default function ContactPage() {
 
           <h2 className="text-xl font-bold text-white mt-8 mb-2">General Inquiries</h2>
           <p>
-            For partner integrations, listing inquiries, or custom SaaS development requests, please contact us at **azzadaamir786@gmail.com**. We typically respond within 12–24 business hours.
+            For partner integrations, listing inquiries, or custom SaaS development requests, please contact us at **mdin.engineer19@gmail.com**. We typically respond within 12–24 business hours.
           </p>
         </div>
       </main>

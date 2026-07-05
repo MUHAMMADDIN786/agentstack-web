@@ -236,14 +236,14 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* HEADER */}
       <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
           <span className="text-2xl font-bold tracking-tight text-white">
             AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
           </span>
-        </div>
+        </a>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-          <a href="#calculator" className="hover:text-white transition-colors">Cost Simulators</a>
-          <a href="#comparison" className="hover:text-white transition-colors">Compare Platforms</a>
+          <a href="/#calculator" className="hover:text-white transition-colors">Cost Simulators</a>
+          <a href="/#comparison" className="hover:text-white transition-colors">Compare Platforms</a>
           <a href="/blog" className="hover:text-white transition-colors">Pricing Guides</a>
         </nav>
         <div>

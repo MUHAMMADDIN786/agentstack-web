@@ -18,22 +18,25 @@ export default function BlogListPage() {
       </div>
 
       {/* HEADER */}
-      <header className="border-b border-white/5 bg-slate-950/20 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tight text-white font-display hover:opacity-90 transition-opacity">
-            AgentStack<span className="text-indigo-400">Calc</span>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              Cost Simulators
-            </Link>
-            <Link href="/about" className="text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              About
-            </Link>
-            <Link href="/contact" className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl transition-all shadow-lg shadow-indigo-600/20">
-              Get in Touch
-            </Link>
-          </div>
+      <header className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+          <span className="text-2xl font-bold tracking-tight text-white font-display">
+            AgentStack<span className="text-[#10b981] font-extrabold">Calc</span>
+          </span>
+        </Link>
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+          <Link href="/#calculator" className="hover:text-white transition-colors">Cost Simulators</Link>
+          <Link href="/#comparison" className="hover:text-white transition-colors">Compare Platforms</Link>
+          <Link href="/blog" className="hover:text-white transition-colors">Pricing Guides</Link>
+        </nav>
+        <div>
+          <a
+            href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
+            target="_blank"
+            className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/30"
+          >
+            Hire Lead Architect
+          </a>
         </div>
       </header>
 

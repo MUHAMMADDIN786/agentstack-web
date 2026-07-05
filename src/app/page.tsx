@@ -1390,7 +1390,7 @@ export default function Home() {
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-800 border border-indigo-500/30">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/next.svg" alt="Lead Developer" className="w-full h-full object-cover p-2 dark:invert" />
+                <img src="/profile.png" alt="Lead Developer" className="w-full h-full object-cover" />
               </div>
               <div className="text-left">
                 <span className="text-sm font-bold text-white block">Muhammad D.</span>

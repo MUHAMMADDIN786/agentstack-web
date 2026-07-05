@@ -268,6 +268,7 @@ export default function VoicePlayground() {
 
       const pcmChunks: Int16Array[] = [];
       let totalSamplesCount = 0;
+      let leftover: Uint8Array | null = null;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -280,14 +281,29 @@ export default function VoicePlayground() {
           setGenerationTime(latency);
         }
 
-        // value is a Uint8Array containing 16-bit PCM samples
-        // We cast it to Int16Array safely using ArrayBuffer slicing to align offset
-        const buffer = value.buffer;
-        const offset = value.byteOffset;
-        const length = value.byteLength;
-        const int16Array = new Int16Array(buffer, offset, length / 2);
-        if (int16Array.length === 0) continue;
+        // Stitch leftover bytes from previous chunk if any
+        let chunkData = value;
+        if (leftover && leftover.length > 0) {
+          const combined = new Uint8Array(leftover.length + value.length);
+          combined.set(leftover, 0);
+          combined.set(value, leftover.length);
+          chunkData = combined;
+          leftover = null;
+        }
 
+        // If the chunk length is odd, save the last byte as leftover for the next chunk
+        if (chunkData.length % 2 !== 0) {
+          leftover = chunkData.slice(chunkData.length - 1);
+          chunkData = chunkData.slice(0, chunkData.length - 1);
+        }
+
+        if (chunkData.length === 0) continue;
+
+        // Copy chunkData to a fresh Uint8Array to reset byteOffset to 0 (perfect 2-byte alignment)
+        const cleanUint8 = new Uint8Array(chunkData.length);
+        cleanUint8.set(chunkData);
+
+        const int16Array = new Int16Array(cleanUint8.buffer);
         pcmChunks.push(int16Array);
         totalSamplesCount += int16Array.length;
 

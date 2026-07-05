@@ -244,7 +244,7 @@ export default function Home() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
           <a href="#calculator" className="hover:text-white transition-colors">Cost Simulators</a>
           <a href="#comparison" className="hover:text-white transition-colors">Compare Platforms</a>
-          <a href="#about" className="hover:text-white transition-colors">Infrastructure Strategy</a>
+          <a href="/blog" className="hover:text-white transition-colors">Pricing Guides</a>
         </nav>
         <div>
           <a
@@ -1413,6 +1413,7 @@ export default function Home() {
         <p>© 2026 AgentStackCalc.com · Transparency layer for AI infrastructure. Affiliate disclaimer: some outgoing platform links may generate referral commissions at zero cost to you.</p>
         <div className="flex justify-center gap-6 text-[11px] text-slate-400 font-medium">
           <a href="/about" className="hover:underline hover:text-white transition-colors">About Us</a>
+          <a href="/blog" className="hover:underline hover:text-white transition-colors">Pricing Guides</a>
           <a href="/contact" className="hover:underline hover:text-white transition-colors">Contact Us</a>
           <a href="/privacy" className="hover:underline hover:text-white transition-colors">Privacy Policy</a>
           <a href="/terms" className="hover:underline hover:text-white transition-colors">Terms of Service</a>

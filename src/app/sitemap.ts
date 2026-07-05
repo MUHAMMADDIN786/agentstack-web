@@ -1,48 +1,69 @@
 import { MetadataRoute } from "next";
+import { getSortedPostsData } from "../lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const posts = getSortedPostsData();
+  const baseUrl = "https://www.agentstackcalc.com";
+
+  // Static routes
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: "https://www.agentstackcalc.com/",
+      url: `${baseUrl}/`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
-      url: "https://www.agentstackcalc.com/about",
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: "https://www.agentstackcalc.com/contact",
+      url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: "https://www.agentstackcalc.com/privacy",
+      url: `${baseUrl}/privacy`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.3,
     },
     {
-      url: "https://www.agentstackcalc.com/terms",
+      url: `${baseUrl}/terms`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.3,
     },
     {
-      url: "https://www.agentstackcalc.com/#calculator",
+      url: `${baseUrl}/#calculator`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: "https://www.agentstackcalc.com/#comparison",
+      url: `${baseUrl}/#comparison`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
   ];
+
+  // Dynamic blog post routes
+  const blogRoutes = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...blogRoutes];
 }

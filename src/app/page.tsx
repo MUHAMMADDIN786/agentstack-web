@@ -8,7 +8,7 @@ export default function Home() {
   // Voice AI State
   const [callMinutes, setCallMinutes] = useState<number>(5000);
   const [telephony, setTelephony] = useState<"native" | "byon">("native");
-  const [ttsProvider, setTtsProvider] = useState<"elevenlabs" | "cartesia" | "deepgram">("cartesia");
+  const [ttsProvider, setTtsProvider] = useState<"elevenlabs" | "cartesia" | "deepgram" | "stackvoice">("cartesia");
   const [llmModel, setLlmModel] = useState<"gpt-4o-mini" | "claude-sonnet">("gpt-4o-mini");
 
   // LLM Calculator State
@@ -103,6 +103,7 @@ export default function Home() {
   const getTtsCostPerMin = () => {
     // Average 150 words/min (approx. 750 characters)
     const CHARS_PER_MIN = 750;
+    if (ttsProvider === "stackvoice") return 0;                             // Self-hosted $0 cost
     if (ttsProvider === "elevenlabs") return (CHARS_PER_MIN * 0.15) / 1000; // $0.15 per 1k chars
     if (ttsProvider === "cartesia") return (CHARS_PER_MIN * 0.02) / 1000;   // $0.02 per 1k chars
     return (CHARS_PER_MIN * 0.015) / 1000;                                 // Deepgram Aura $0.015 per 1k
@@ -411,7 +412,17 @@ export default function Home() {
               {/* TTS Voice Selector */}
               <div className="flex flex-col gap-2">
                 <span className="text-sm font-medium text-slate-400">Text-to-Speech Voice:</span>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setTtsProvider("stackvoice")}
+                    className={`py-2 text-xs font-semibold border rounded-lg transition-all ${
+                      ttsProvider === "stackvoice"
+                        ? "border-emerald-500 bg-emerald-500/10 text-white"
+                        : "border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    StackVoice (Oms/Free)
+                  </button>
                   <button
                     onClick={() => setTtsProvider("cartesia")}
                     className={`py-2 text-xs font-semibold border rounded-lg transition-all ${

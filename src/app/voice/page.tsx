@@ -32,6 +32,7 @@ export default function VoicePlayground() {
     French: ['FR'],
     Italian: ['IT'],
     Portuguese: ['PT'],
+    Hindi: ['IN'],
     Japanese: ['JP'],
     Chinese: ['CN'],
   };

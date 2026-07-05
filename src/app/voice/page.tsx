@@ -525,7 +525,7 @@ export default function VoicePlayground() {
                   </span>
                 )}
               </div>
-              <audio controls src={audioUrl} className="w-full" autoPlay />
+              <audio controls src={audioUrl} className="w-full" />
               <div className="flex justify-end">
                 <a
                   href={audioUrl}

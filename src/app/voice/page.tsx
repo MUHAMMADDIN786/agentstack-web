@@ -10,13 +10,87 @@ interface Voice {
   language: string;
 }
 
+const STATIC_VOICES: Voice[] = [
+  // American English (US)
+  { id: 'af_bella', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_sarah', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_nicole', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_sky', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_heart', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_alloy', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_aoede', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_jessica', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_kore', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_river', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_nova', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'am_adam', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_michael', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_fenrir', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_puck', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_echo', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_eric', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_liam', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_onyx', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_santa', gender: 'Male', accent: 'US', language: 'English' },
+  
+  // British English (UK)
+  { id: 'bf_emma', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_isabella', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_alice', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_lily', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bm_george', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_lewis', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_daniel', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_fable', gender: 'Male', accent: 'UK', language: 'English' },
+  
+  // Spanish (ES)
+  { id: 'ef_dora', gender: 'Female', accent: 'ES', language: 'Spanish' },
+  { id: 'em_alex', gender: 'Male', accent: 'ES', language: 'Spanish' },
+  { id: 'em_santa', gender: 'Male', accent: 'ES', language: 'Spanish' },
+  
+  // French (FR)
+  { id: 'ff_siwis', gender: 'Female', accent: 'FR', language: 'French' },
+  
+  // Italian (IT)
+  { id: 'if_sara', gender: 'Female', accent: 'IT', language: 'Italian' },
+  { id: 'im_nicola', gender: 'Male', accent: 'IT', language: 'Italian' },
+  
+  // Portuguese (PT)
+  { id: 'pf_dora', gender: 'Female', accent: 'PT', language: 'Portuguese' },
+  { id: 'pm_alex', gender: 'Male', accent: 'PT', language: 'Portuguese' },
+  { id: 'pm_santa', gender: 'Male', accent: 'PT', language: 'Portuguese' },
+
+  // Hindi (IN)
+  { id: 'hf_alpha', gender: 'Female', accent: 'IN', language: 'Hindi' },
+  { id: 'hf_beta', gender: 'Female', accent: 'IN', language: 'Hindi' },
+  { id: 'hm_omega', gender: 'Male', accent: 'IN', language: 'Hindi' },
+  { id: 'hm_psi', gender: 'Male', accent: 'IN', language: 'Hindi' },
+  
+  // Japanese (JA)
+  { id: 'jf_alpha', gender: 'Female', accent: 'JP', language: 'Japanese' },
+  { id: 'jf_gongitsune', gender: 'Female', accent: 'JP', language: 'Japanese' },
+  { id: 'jf_nezumi', gender: 'Female', accent: 'JP', language: 'Japanese' },
+  { id: 'jf_tebukuro', gender: 'Female', accent: 'JP', language: 'Japanese' },
+  { id: 'jm_kumo', gender: 'Male', accent: 'JP', language: 'Japanese' },
+  
+  // Chinese (ZH)
+  { id: 'zf_xiaobei', gender: 'Female', accent: 'CN', language: 'Chinese' },
+  { id: 'zf_xiaoni', gender: 'Female', accent: 'CN', language: 'Chinese' },
+  { id: 'zf_xiaoxiao', gender: 'Female', accent: 'CN', language: 'Chinese' },
+  { id: 'zf_xiaoyi', gender: 'Female', accent: 'CN', language: 'Chinese' },
+  { id: 'zm_yunjian', gender: 'Male', accent: 'CN', language: 'Chinese' },
+  { id: 'zm_yunxi', gender: 'Male', accent: 'CN', language: 'Chinese' },
+  { id: 'zm_yunxia', gender: 'Male', accent: 'CN', language: 'Chinese' },
+  { id: 'zm_yunyang', gender: 'Male', accent: 'CN', language: 'Chinese' }
+];
+
 export default function VoicePlayground() {
   const [text, setText] = useState('Hi, I am StackVoice, a hyper-realistic speech synthesis engine. Try typing your own text and hear the performance in real-time!');
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [selectedAccent, setSelectedAccent] = useState('US');
   const [selectedVoice, setSelectedVoice] = useState('af_bella');
   const [speed, setSpeed] = useState(1.0);
-  const [voices, setVoices] = useState<Voice[]>([]);
+  const [voices, setVoices] = useState<Voice[]>(STATIC_VOICES);
   const [loading, setLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [generationTime, setGenerationTime] = useState<number | null>(null);

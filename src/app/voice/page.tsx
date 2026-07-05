@@ -83,63 +83,7 @@ const STATIC_VOICES: Voice[] = [
   { id: 'zm_yunxia', gender: 'Male', accent: 'CN', language: 'Chinese' },
   { id: 'zm_yunyang', gender: 'Male', accent: 'CN', language: 'Chinese' }
 ];
-
-function encodeWAV(samples: Int16Array, sampleRate: number = 24000): Blob {
-  const buffer = new ArrayBuffer(44 + samples.length * 2);
-  const view = new DataView(buffer);
-
-  /* RIFF identifier */
-  writeString(view, 0, 'RIFF');
-  /* file length */
-  view.setUint32(4, 36 + samples.length * 2, true);
-  /* RIFF type */
-  writeString(view, 8, 'WAVE');
-  /* format chunk identifier */
-  writeString(view, 12, 'fmt ');
-  /* format chunk length */
-  view.setUint32(16, 16, true);
-  /* sample format (raw PCM = 1) */
-  view.setUint16(20, 1, true);
-  /* channel count */
-  view.setUint16(22, 1, true);
-  /* sample rate */
-  view.setUint32(24, sampleRate, true);
-  /* byte rate (sample rate * block align) */
-  view.setUint32(28, sampleRate * 2, true);
-  /* block align (channel count * bytes per sample) */
-  view.setUint16(32, 2, true);
-  /* bits per sample */
-  view.setUint16(34, 16, true);
-  /* data chunk identifier */
-  writeString(view, 36, 'data');
-  /* data chunk length */
-  view.setUint32(40, samples.length * 2, true);
-
-  // Write samples
-  for (let i = 0; i < samples.length; i++) {
-    view.setInt16(44 + i * 2, samples[i], true);
-  }
-
-  return new Blob([view], { type: 'audio/wav' });
-}
-
-function writeString(view: DataView, offset: number, string: string) {
-  for (let i = 0; i < string.length; i++) {
-    view.setUint8(offset + i, string.charCodeAt(i));
-  }
-}
-
 export default function VoicePlayground() {
-  const audioContextRef = useRef<AudioContext | null>(null);
-  
-  // Cleanup audio context on unmount
-  useEffect(() => {
-    return () => {
-      if (audioContextRef.current) {
-        audioContextRef.current.close().catch(() => {});
-      }
-    };
-  }, []);
 
   const [text, setText] = useState('Hi, I am StackVoice, a hyper-realistic speech synthesis engine. Try typing your own text and hear the performance in real-time!');
   const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -220,12 +164,6 @@ export default function VoicePlayground() {
     e.preventDefault();
     if (!text.trim()) return;
 
-    // Reset previous audio contexts
-    if (audioContextRef.current) {
-      audioContextRef.current.close().catch(() => {});
-      audioContextRef.current = null;
-    }
-
     setLoading(true);
     setError(null);
     if (audioUrl) {
@@ -235,10 +173,9 @@ export default function VoicePlayground() {
     setGenerationTime(null);
 
     const startTime = performance.now();
-    let firstChunkReceived = false;
 
     try {
-      const response = await fetch(`${backendUrl}/api/v1/tts/stream`, {
+      const response = await fetch(`${backendUrl}/api/v1/tts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -255,92 +192,12 @@ export default function VoicePlayground() {
         throw new Error(errorData.detail || 'Failed to synthesize speech.');
       }
 
-      // Initialize Web Audio API
-      const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
-      const audioCtx = new AudioCtxClass();
-      audioContextRef.current = audioCtx;
-      let nextPlayTime = audioCtx.currentTime;
+      const audioBlob = await response.blob();
+      const url = URL.createObjectURL(audioBlob);
+      setAudioUrl(url);
 
-      const reader = response.body?.getReader();
-      if (!reader) {
-        throw new Error('Failed to start response reader stream.');
-      }
-
-      const pcmChunks: Int16Array[] = [];
-      let totalSamplesCount = 0;
-      let leftover: Uint8Array | null = null;
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        if (!firstChunkReceived) {
-          firstChunkReceived = true;
-          // Set generation time as the latency to first byte!
-          const latency = performance.now() - startTime;
-          setGenerationTime(latency);
-        }
-
-        // Stitch leftover bytes from previous chunk if any
-        let chunkData = value;
-        if (leftover && leftover.length > 0) {
-          const combined = new Uint8Array(leftover.length + value.length);
-          combined.set(leftover, 0);
-          combined.set(value, leftover.length);
-          chunkData = combined;
-          leftover = null;
-        }
-
-        // If the chunk length is odd, save the last byte as leftover for the next chunk
-        if (chunkData.length % 2 !== 0) {
-          leftover = chunkData.slice(chunkData.length - 1);
-          chunkData = chunkData.slice(0, chunkData.length - 1);
-        }
-
-        if (chunkData.length === 0) continue;
-
-        // Copy chunkData to a fresh Uint8Array to reset byteOffset to 0 (perfect 2-byte alignment)
-        const cleanUint8 = new Uint8Array(chunkData.length);
-        cleanUint8.set(chunkData);
-
-        const int16Array = new Int16Array(cleanUint8.buffer);
-        pcmChunks.push(int16Array);
-        totalSamplesCount += int16Array.length;
-
-        // Create Web Audio Buffer
-        const sampleRate = 24000;
-        const audioBuffer = audioCtx.createBuffer(1, int16Array.length, sampleRate);
-        const channelData = audioBuffer.getChannelData(0);
-
-        // Convert 16-bit PCM to Float32 [-1.0, 1.0]
-        for (let i = 0; i < int16Array.length; i++) {
-          channelData[i] = int16Array[i] / 32768.0;
-        }
-
-        // Schedule and start node source playback
-        const source = audioCtx.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(audioCtx.destination);
-
-        const playStartTime = Math.max(audioCtx.currentTime, nextPlayTime);
-        source.start(playStartTime);
-        nextPlayTime = playStartTime + audioBuffer.duration;
-      }
-
-      // Once streaming completes: compile all PCM chunks into a downloadable WAV file!
-      if (totalSamplesCount > 0) {
-        const mergedSamples = new Int16Array(totalSamplesCount);
-        let offset = 0;
-        for (const chunk of pcmChunks) {
-          mergedSamples.set(chunk, offset);
-          offset += chunk.length;
-        }
-
-        const wavBlob = encodeWAV(mergedSamples, 24000);
-        const url = URL.createObjectURL(wavBlob);
-        setAudioUrl(url);
-      }
-
+      const latency = response.headers.get('X-Response-Time-Ms');
+      setGenerationTime(latency ? parseFloat(latency) : performance.now() - startTime);
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'API connection refused. Please ensure your Python server is active on Port 3005.');
@@ -525,7 +382,7 @@ export default function VoicePlayground() {
                   </span>
                 )}
               </div>
-              <audio controls src={audioUrl} className="w-full" />
+              <audio controls src={audioUrl} className="w-full" autoPlay />
               <div className="flex justify-end">
                 <a
                   href={audioUrl}

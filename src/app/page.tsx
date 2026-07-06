@@ -247,7 +247,6 @@ export default function Home() {
           <a href="/#comparison" className="hover:text-white transition-colors">Compare Platforms</a>
           <a href="/blog" className="hover:text-white transition-colors">Pricing Guides</a>
           <a href="/voice" className="hover:text-white transition-colors">Voice Playground</a>
-          <a href="/console" className="hover:text-white transition-colors text-indigo-400 font-bold">Console</a>
         </nav>
         <div>
           <a
@@ -1429,7 +1428,6 @@ export default function Home() {
           <a href="/about" className="hover:underline hover:text-white transition-colors">About Us</a>
           <a href="/blog" className="hover:underline hover:text-white transition-colors">Pricing Guides</a>
           <a href="/voice" className="hover:underline hover:text-white transition-colors">Voice Playground</a>
-          <a href="/console" className="hover:underline hover:text-white transition-colors">Console</a>
           <a href="/contact" className="hover:underline hover:text-white transition-colors">Contact Us</a>
           <a href="/privacy" className="hover:underline hover:text-white transition-colors">Privacy Policy</a>
           <a href="/terms" className="hover:underline hover:text-white transition-colors">Terms of Service</a>

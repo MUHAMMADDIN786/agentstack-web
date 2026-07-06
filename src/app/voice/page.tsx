@@ -406,17 +406,19 @@ export default function VoicePlayground() {
 
         {/* DEDICATED WAITLIST CRM CTA */}
         <section className="mt-12 text-center max-w-xl mx-auto flex flex-col gap-4">
-          <h2 className="text-lg font-bold text-white font-display">Need higher limits and API access?</h2>
+          <h2 className="text-lg font-bold text-white font-display">Ready to self-host StackVoice?</h2>
           <p className="text-xs text-slate-400 leading-relaxed">
-            The playground has a 500-character demo limit. Standard API access yields up to 200,000 characters per call, custom billing structures, and 99.9% uptime deployment keys for your agents.
+            StackVoice is 100% open-source and free. Get the official API source code and VPS deployment instructions to run your own dedicated speech server with no character limits.
           </p>
           <div className="flex justify-center mt-2">
-            <Link
-              href="/blog/elevenlabs-vs-cartesia-vs-stackvoice"
+            <a
+              href="https://github.com/MUHAMMADDIN786/2b-lead-automation-microservice"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 px-5 py-2.5 rounded-xl transition-all shadow-md"
             >
-              Join the API Waitlist
-            </Link>
+              Get API Source Code
+            </a>
           </div>
         </section>
       </main>

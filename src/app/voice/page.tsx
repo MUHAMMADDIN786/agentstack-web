@@ -225,6 +225,8 @@ export default function VoicePlayground() {
           <Link href="/#calculator" className="hover:text-white transition-colors">Cost Simulators</Link>
           <Link href="/#comparison" className="hover:text-white transition-colors">Compare Platforms</Link>
           <Link href="/blog" className="hover:text-white transition-colors">Pricing Guides</Link>
+          <Link href="/voice" className="hover:text-white transition-colors">Voice Playground</Link>
+          <Link href="/console" className="hover:text-white transition-colors text-indigo-400 font-bold">Console</Link>
         </nav>
         <div>
           <a

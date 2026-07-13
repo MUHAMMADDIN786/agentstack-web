@@ -181,7 +181,7 @@ export default function VoicePlayground() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          text: text.substring(0, 1000), // Enforce 1000 limit on demo
+          text: text.substring(0, 3000), // Enforce 3000 limit on demo
           voice: selectedVoice,
           speed: speed,
         }),
@@ -336,11 +336,11 @@ export default function VoicePlayground() {
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center text-xs">
                 <label className="font-bold text-slate-400 uppercase tracking-wider">Input Script</label>
-                <span className="text-slate-600 font-mono">{text.length}/1000</span>
+                <span className="text-slate-600 font-mono">{text.length}/3000</span>
               </div>
               <textarea
                 value={text}
-                onChange={(e) => setText(e.target.value.substring(0, 1000))}
+                onChange={(e) => setText(e.target.value.substring(0, 3000))}
                 rows={4}
                 required
                 placeholder="Type script here..."

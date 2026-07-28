@@ -22,15 +22,179 @@ interface ClonedVoice {
   gender: string;
   language: string;
   addedDate: string;
+interface ClonedVoice {
+  id: string;
+  name: string;
+  status: 'ready' | 'training';
+  gender: string;
+  language: string;
+  addedDate: string;
 }
 
+interface Voice {
+  id: string;
+  gender: string;
+  accent: string;
+  language: string;
+}
+
+const STATIC_VOICES: Voice[] = [
+  // American English (US)
+  { id: 'af_bella', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_sarah', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_nicole', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_sky', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_heart', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_alloy', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_aoede', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_jessica', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_kore', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_river', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'af_nova', gender: 'Female', accent: 'US', language: 'English' },
+  { id: 'am_adam', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_michael', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_fenrir', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_puck', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_echo', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_eric', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_liam', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_onyx', gender: 'Male', accent: 'US', language: 'English' },
+  { id: 'am_santa', gender: 'Male', accent: 'US', language: 'English' },
+
+  // British English (UK)
+  { id: 'bf_emma', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_isabella', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_alice', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bf_lily', gender: 'Female', accent: 'UK', language: 'English' },
+  { id: 'bm_george', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_lewis', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_daniel', gender: 'Male', accent: 'UK', language: 'English' },
+  { id: 'bm_fable', gender: 'Male', accent: 'UK', language: 'English' },
+
+  // Spanish (ES)
+  { id: 'ef_dora', gender: 'Female', accent: 'ES', language: 'Spanish' },
+  { id: 'em_alex', gender: 'Male', accent: 'ES', language: 'Spanish' },
+
+  // French (FR)
+  { id: 'ff_siwis', gender: 'Female', accent: 'FR', language: 'French' },
+
+  // Italian (IT)
+  { id: 'if_sara', gender: 'Female', accent: 'IT', language: 'Italian' },
+  { id: 'im_nicola', gender: 'Male', accent: 'IT', language: 'Italian' },
+
+  // Portuguese (PT)
+  { id: 'pf_dora', gender: 'Female', accent: 'PT', language: 'Portuguese' },
+  { id: 'pm_alex', gender: 'Male', accent: 'PT', language: 'Portuguese' },
+
+  // Hindi (IN)
+  { id: 'hf_alpha', gender: 'Female', accent: 'IN', language: 'Hindi' },
+  { id: 'hm_omega', gender: 'Male', accent: 'IN', language: 'Hindi' },
+
+  // Japanese (JP)
+  { id: 'jf_alpha', gender: 'Female', accent: 'JP', language: 'Japanese' },
+  { id: 'jm_kumo', gender: 'Male', accent: 'JP', language: 'Japanese' },
+
+  // Chinese (CN)
+  { id: 'zf_xiaobei', gender: 'Female', accent: 'CN', language: 'Chinese' },
+  { id: 'zm_yunxi', gender: 'Male', accent: 'CN', language: 'Chinese' }
+];
+
 export default function DeveloperConsole() {
-  const [activeTab, setActiveTab] = useState<'nodes' | 'cloning' | 'billing' | 'docs'>('nodes');
+  const [activeTab, setActiveTab] = useState<'nodes' | 'synthesis' | 'cloning' | 'billing' | 'docs'>('nodes');
   const [licenseKey, setLicenseKey] = useState('');
   const [isLicenseValid, setIsLicenseValid] = useState(false);
   const [licenseTier, setLicenseTier] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
+
+  // Audio Synthesis state for transcript generation
+  const [ttsText, setTtsText] = useState('Enter transcript text here to generate high-fidelity speech audio...');
+  const [ttsLanguage, setTtsLanguage] = useState('English');
+  const [ttsAccent, setTtsAccent] = useState('US');
+  const [ttsVoice, setTtsVoice] = useState('af_bella');
+  const [ttsSpeed, setTtsSpeed] = useState(1.0);
+  const [ttsLoading, setTtsLoading] = useState(false);
+  const [ttsAudioUrl, setTtsAudioUrl] = useState<string | null>(null);
+  const [ttsGenTime, setTtsGenTime] = useState<number | null>(null);
+  const [ttsError, setTtsError] = useState<string | null>(null);
+
+  const ttsBackendUrl = process.env.NEXT_PUBLIC_TTS_API_URL || 'https://api.agentstackcalc.com';
+
+  const accentsMap: Record<string, string[]> = {
+    English: ['US', 'UK'],
+    Spanish: ['ES'],
+    French: ['FR'],
+    Italian: ['IT'],
+    Portuguese: ['PT'],
+    Hindi: ['IN'],
+    Japanese: ['JP'],
+    Chinese: ['CN'],
+  };
+
+  const filteredVoices = STATIC_VOICES.filter(
+    (v) => v.language === ttsLanguage && (ttsLanguage === 'English' ? v.accent === ttsAccent : true)
+  );
+
+  const handleLanguageChange = (lang: string) => {
+    setTtsLanguage(lang);
+    const accents = accentsMap[lang] || [];
+    setTtsAccent(accents[0] || '');
+  };
+
+  useEffect(() => {
+    if (filteredVoices.length > 0) {
+      const hasBella = filteredVoices.some(v => v.id === 'af_bella');
+      if (ttsLanguage === 'English' && ttsAccent === 'US' && hasBella) {
+        setTtsVoice('af_bella');
+      } else {
+        setTtsVoice(filteredVoices[0].id);
+      }
+    }
+  }, [ttsLanguage, ttsAccent]);
+
+  const handleSynthesizeAudio = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ttsText.trim()) return;
+
+    setTtsLoading(true);
+    setTtsError(null);
+    if (ttsAudioUrl) {
+      URL.revokeObjectURL(ttsAudioUrl);
+      setTtsAudioUrl(null);
+    }
+    setTtsGenTime(null);
+
+    const startTime = performance.now();
+
+    try {
+      const response = await fetch(`${ttsBackendUrl}/api/v1/tts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: ttsText.substring(0, 3000),
+          voice: ttsVoice,
+          speed: ttsSpeed,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ detail: 'TTS API Server is currently offline.' }));
+        throw new Error(errorData.detail || 'Failed to synthesize speech.');
+      }
+
+      const audioBlob = await response.blob();
+      const url = URL.createObjectURL(audioBlob);
+      setTtsAudioUrl(url);
+      setTtsGenTime(performance.now() - startTime);
+    } catch (err: any) {
+      console.error('TTS Synthesis Error:', err);
+      setTtsError(err.message || 'An error occurred during speech synthesis.');
+    } finally {
+      setTtsLoading(false);
+    }
+  };
 
   // Nodes state
   const [nodes, setNodes] = useState<Node[]>([
@@ -223,6 +387,16 @@ export default function DeveloperConsole() {
               📊 Deployments & Nodes
             </button>
             <button
+              onClick={() => setActiveTab('synthesis')}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer text-left ${
+                activeTab === 'synthesis'
+                  ? 'bg-indigo-600/10 text-white border-l-2 border-indigo-500'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900/30 border-l-2 border-transparent'
+              }`}
+            >
+              🔊 Audio Generation
+            </button>
+            <button
               onClick={() => setActiveTab('cloning')}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer text-left ${
                 activeTab === 'cloning'
@@ -325,6 +499,156 @@ export default function DeveloperConsole() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* TAB 2: AUDIO GENERATION STUDIO */}
+          {activeTab === 'synthesis' && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <h1 className="text-2xl font-bold text-white font-display">Audio Generation Studio</h1>
+                <p className="text-xs text-slate-400 mt-1">Generate high-fidelity speech audio WAV files for your transcripts directly using our hosted engine.</p>
+              </div>
+
+              <form onSubmit={handleSynthesizeAudio} className="glass-panel p-6 rounded-2xl border border-white/5 bg-slate-900/30 flex flex-col gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Language */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Language</label>
+                    <select
+                      value={ttsLanguage}
+                      onChange={(e) => handleLanguageChange(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:border-indigo-500 outline-none cursor-pointer"
+                    >
+                      {Object.keys(accentsMap).map((lang) => (
+                        <option key={lang} value={lang}>{lang}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Accent Dialect */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Accent Dialect</label>
+                    <select
+                      value={ttsAccent}
+                      onChange={(e) => setTtsAccent(e.target.value)}
+                      disabled={ttsLanguage !== 'English'}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:border-indigo-500 outline-none disabled:opacity-50 cursor-pointer"
+                    >
+                      {(accentsMap[ttsLanguage] || []).map((acc) => (
+                        <option key={acc} value={acc}>{acc === 'US' ? 'American (US)' : acc === 'UK' ? 'British (UK)' : acc}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Voice Persona */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Voice Character</label>
+                    <select
+                      value={ttsVoice}
+                      onChange={(e) => setTtsVoice(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:border-indigo-500 outline-none cursor-pointer"
+                    >
+                      {filteredVoices.map((v) => {
+                        const cleanId = v.id.replace(/^(af_|am_|bf_|bm_|ef_|em_|ff_|if_|im_|pf_|pm_|hf_|hm_|jf_|jm_|zf_|zm_)/, '');
+                        const name = cleanId.charAt(0).toUpperCase() + cleanId.slice(1);
+                        return (
+                          <option key={v.id} value={v.id}>
+                            {name} ({v.gender})
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Speed Slider */}
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <label className="font-bold text-slate-400 uppercase tracking-wider">Speech Speed</label>
+                    <span className="text-indigo-400 font-mono font-bold">{ttsSpeed.toFixed(1)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="2.0"
+                    step="0.1"
+                    value={ttsSpeed}
+                    onChange={(e) => setTtsSpeed(parseFloat(e.target.value))}
+                    className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-500">
+                    <span>Slow (0.5x)</span>
+                    <span>Normal (1.0x)</span>
+                    <span>Fast (2.0x)</span>
+                  </div>
+                </div>
+
+                {/* Script Textarea */}
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <label className="font-bold text-slate-400 uppercase tracking-wider">Input Script / Transcript</label>
+                    <span className="text-slate-500 font-mono text-[11px]">{ttsText.length}/3000</span>
+                  </div>
+                  <textarea
+                    value={ttsText}
+                    onChange={(e) => setTtsText(e.target.value.substring(0, 3000))}
+                    rows={6}
+                    required
+                    placeholder="Paste or type script transcript here..."
+                    className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none transition-all placeholder:text-slate-600 resize-none leading-relaxed"
+                  />
+                </div>
+
+                {/* Synthesize Action Button */}
+                <button
+                  type="submit"
+                  disabled={ttsLoading || !ttsText.trim()}
+                  className="w-full py-3.5 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-950 disabled:opacity-50 border border-transparent disabled:border-slate-800 rounded-xl transition-all shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                >
+                  {ttsLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                      <span>Generating Audio...</span>
+                    </>
+                  ) : (
+                    <span>🔊 Synthesize Voice Audio</span>
+                  )}
+                </button>
+
+                {/* Audio Player Output */}
+                {ttsAudioUrl && (
+                  <div className="p-4 border border-emerald-500/20 bg-emerald-950/10 rounded-xl flex flex-col gap-4 animate-fade-in">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-emerald-400 font-semibold flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Synthesis Complete!
+                      </span>
+                      {ttsGenTime && (
+                        <span className="text-[10px] text-slate-500">
+                          Engine Latency: <span className="font-mono text-slate-400">{(ttsGenTime / 1000).toFixed(2)}s</span>
+                        </span>
+                      )}
+                    </div>
+                    <audio controls src={ttsAudioUrl} className="w-full rounded-lg" autoPlay />
+                    <div className="flex justify-end">
+                      <a
+                        href={ttsAudioUrl}
+                        download="transcript_speech.wav"
+                        className="px-4 py-2 text-xs font-bold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg flex items-center gap-2 transition-all"
+                      >
+                        📥 Download Audio WAV
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {ttsError && (
+                  <div className="p-3 border border-red-500/20 bg-red-950/10 text-red-400 text-xs rounded-xl text-center">
+                    ⚠️ {ttsError}
+                  </div>
+                )}
+              </form>
             </div>
           )}
 

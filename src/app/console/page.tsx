@@ -22,13 +22,6 @@ interface ClonedVoice {
   gender: string;
   language: string;
   addedDate: string;
-interface ClonedVoice {
-  id: string;
-  name: string;
-  status: 'ready' | 'training';
-  gender: string;
-  language: string;
-  addedDate: string;
 }
 
 interface Voice {

@@ -889,10 +889,15 @@ export default function Home() {
             <div className="lg:col-span-7 flex flex-col gap-6">
               {[
                 { name: "Runway Gen-3 Alpha API", provider: "RunwayML", ratePerMin: 15.00, url: "https://runwayml.com", note: "Photorealistic rendering and complex physics simulation. Standard choice for high-end cinematic ads." },
-                { name: "Sora API (Estimated)", provider: "OpenAI", ratePerMin: 10.00, url: "https://platform.openai.com", note: "Elite prompt-adherence, spatial consistency, and multi-camera angle simulation." },
+                { name: "Sora 2 API (Estimated)", provider: "OpenAI", ratePerMin: 10.00, url: "https://platform.openai.com", note: "Elite prompt-adherence, spatial consistency, and multi-camera angle simulation." },
+                { name: "Google Veo 2 / 3 API", provider: "Google DeepMind", ratePerMin: 8.00, url: "https://deepmind.google/technologies/veo/", note: "High-fidelity photorealistic 1080p video generation with precise audio-sync and temporal consistency." },
+                { name: "HeyGen Avatar API", provider: "HeyGen", ratePerMin: 3.00, url: "https://app.heygen.com", note: "Industry benchmark for hyper-realistic AI avatars, video translation, and automated spokesperson generation." },
                 { name: "Luma Dream Machine", provider: "Luma Labs", ratePerMin: 1.80, url: "https://lumalabs.ai", note: "Excellent speed and highly fluid camera movement pans. Very cost-efficient." },
                 { name: "MiniMax Video (Hailuo)", provider: "MiniMax", ratePerMin: 1.50, url: "https://hailuoai.com", note: "Exceptional representation of human movement and facial features at a low price point." },
-                { name: "Kling AI Pro API", provider: "Kuaishou", ratePerMin: 1.20, url: "https://klingai.com", note: "Outstanding pricing structure, supports custom camera motion variables." }
+                { name: "Kling AI 3.0 Pro API", provider: "Kuaishou", ratePerMin: 1.20, url: "https://klingai.com", note: "Outstanding motion physics, supporting custom camera trajectory and prompt controls." },
+                { name: "Higgsfield AI Video", provider: "Higgsfield", ratePerMin: 1.00, url: "https://higgsfield.ai", note: "Specialized social video generation platform with motion-guided character controls." },
+                { name: "Tencent Hunyuan Video", provider: "Tencent AI", ratePerMin: 0.80, url: "https://github.com/Tencent/HunyuanVideo", note: "High-performance open-weights video model with rich motion dynamics and prompt compliance." },
+                { name: "Alibaba Wan 2.1 Video", provider: "Alibaba Cloud", ratePerMin: 0.50, url: "https://wan.aliyun.com", note: "Ultra-efficient text-to-video and image-to-video generation optimized for high-throughput scaling." }
               ].map((model) => {
                 const totalCost = videoMinutes * model.ratePerMin;
                 return (

@@ -270,6 +270,35 @@ export default function Home() {
         <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-8 leading-relaxed">
           Estimate and optimize the exact monthly running costs of conversational Voice AI models and workflow automation engines. Discover the cheapest path to scale.
         </p>
+
+        {/* B2B AUDIT CTA BANNER */}
+        <div className="w-full bg-gradient-to-r from-indigo-950/80 via-slate-900 to-indigo-950/80 border border-indigo-500/30 rounded-2xl p-6 md:p-8 text-left shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 my-4">
+          <div className="flex flex-col gap-2 max-w-xl">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 rounded">
+                B2B Optimization Audit
+              </span>
+              <span className="text-xs text-slate-400 font-semibold">Spending over $500/mo on AI APIs?</span>
+            </div>
+            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+              Cut Your AI & Voice Infrastructure Bill by Up to 75%
+            </h3>
+            <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+              Book a custom 1-on-1 Infrastructure Audit with our Lead Systems Engineer. We analyze your LLM token routing, migrate high-cost voice APIs to self-hosted nodes, and eliminate scale pricing traps.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 w-full md:w-auto shrink-0">
+            <a
+              href="https://www.upwork.com/freelancers/~01f8ce5ce11decf069?mp_source=share"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 rounded-xl transition-all shadow-lg shadow-indigo-600/30 text-center flex items-center justify-center gap-2"
+            >
+              <span>👉 Book Audit on Upwork</span>
+            </a>
+            <span className="text-[10px] text-slate-400 text-center font-medium">Direct Contract · Verified Top Rated Engineer</span>
+          </div>
+        </div>
       </section>
 
       {/* TABS CONTROLLER */}

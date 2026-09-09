@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+AgentStack Calc
 
-## Getting Started
+Live: agentstackcalc.com · Voice playground: agentstackcalc.com/voice
 
-First, run the development server:
+A cost-comparison simulator for voice-AI and automation infrastructure. Teams evaluating a voice-agent or workflow-automation stack rarely know the real monthly cost until they're already committed — AgentStack Calc lets you model and compare pricing across providers before you build.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+What it does
+Voice AI cost modeling — compares per-minute and monthly costs across voice agent platforms (Vapi, Retell, Bland) against your expected call volume and duration.
+Automation platform comparison — models Zapier/Make.com task-based pricing against a self-hosted n8n deployment, showing the break-even point where self-hosting starts saving money.
+StackVoice TTS playground (/voice) — a live demo of a neural text-to-speech engine built on Kokoro-82M (ONNX runtime), running at sub-220ms synthesis latency.
+Tech stack
+Framework: Next.js (App Router), TypeScript
+Styling: Tailwind CSS
+Voice synthesis: Kokoro-82M via ONNX Runtime
+Deployment: Vercel
+Why I built it
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Most cost calculators for AI infrastructure are vendor marketing pages that only show their own pricing in the best light. I wanted a neutral tool that pulls in real published pricing across providers, so teams (including my own client work) can make an infrastructure decision based on numbers instead of sales pitches.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Actively used to inform infrastructure decisions on client and personal projects. Pricing data is updated manually as providers change their models — open to contributions if you spot something stale.
